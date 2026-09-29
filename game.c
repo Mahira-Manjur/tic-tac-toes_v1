@@ -1,8 +1,11 @@
+#include "game.h"
+#include"board.h"
 
-void startGme(int module){
-    char board[3][3];
+#include<stdio.h.>
+
+void startGame(int module,char board[3][3]){
     createBoard(board);
-    showboard(board);
+    showBoard(board);
     if(module==1){
         playerVsPlayer(board);
     }
@@ -22,12 +25,13 @@ void playerVsPlayer(char board[3][3]){
     char token1='X';
     validMovecheck(board,index1,token1);
     puttingInput(board,index1,token1);
+    showBoard(board);
 
     int index2= playerMove();
     char token2='O';
     validMovecheck(board,index2,token2);
     puttingInput(board,index2,token2);
-
+    showBoard(board);
 }
 void playerVsAI1(char board[3][3]){
     
@@ -117,6 +121,7 @@ void validMovecheck(char board[3][3],int index,char token){
                     printf("Invalid move! Try again.\n");
                     index= playerMove();
                     validMovecheck(board,index,token);
+                    puttingInput(board,index,token);
                 }
             }
         }

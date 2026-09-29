@@ -18,10 +18,14 @@ void afterModePicked(int module){
     else{
         printf("Invalid choice\n");
     }
-    return 0;
+    
 }
 int main(){
     int module = showYourself();
     afterModePicked(module);
+    char board[3][3];
+    // createBoard(board);
+    // showBoard(board);
+    startGame(module,board);
     return 0;
 }
