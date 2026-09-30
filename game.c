@@ -2,6 +2,7 @@
 #include"board.h"
 
 #include<stdio.h.>
+#include <stdlib.h>
 #define WIN 1
 #define DRAW 2
 
@@ -52,7 +53,32 @@ void playerVsPlayer(char board[3][3]){
     
 }
 void playerVsAI1(char board[3][3]){
-    
+    while(1){
+        int index1;
+        char token1='X';
+        char token2='O';
+
+        do{
+            index1=playerMove();
+        }while(!validMoveCheck(board,index1));
+        
+        puttingInput(board,index1,token1);
+        showBoard(board);
+        if(gameOver(board,token1,token2)){
+            break;
+        }
+        int index2;
+        
+        do{
+            index2=rand()%9;
+        }while(!validMoveCheck(board,index2));
+        
+        puttingInput(board,index2,token2);
+        showBoard(board);
+        if(gameOver(board,token1,token2)){
+            break;
+        }
+    }
 }
 void playerVsAI2(char board[3][3]){
     
@@ -60,6 +86,7 @@ void playerVsAI2(char board[3][3]){
 void playerVsAI3(char board[3][3]){
     
 }
+
 int gameOver(char board[3][3],char token1,char token2){
         int flag=!WIN;
     // row check
