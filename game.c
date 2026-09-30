@@ -5,6 +5,33 @@
 #include <stdlib.h>
 #define WIN 1
 #define DRAW 2
+int number;
+
+void gameOverText(int number){
+    if(number==0){
+        printf("Player 1 won");
+    }
+    else if(number==1){
+        printf("Player 2 won");
+    }
+    else if(number==2){
+        printf("Player won");
+    }
+    else if(number==3){
+        printf("A1 won");
+    }
+    else if(number==4){
+        printf("A2 won");
+    }
+    else if(number==5){
+        printf("A3 won");
+    }
+    else if(number==6){
+         printf("DRAW!");
+    }else if(number==7){
+
+    }
+}
 
 void startGame(int module,char board[3][3]){
     createBoard(board);
@@ -26,29 +53,38 @@ void startGame(int module,char board[3][3]){
 void playerVsPlayer(char board[3][3]){
     while(1){
         int index1;
-    char token1='X';
-    char token2='O';
+        char token1='X';
+        char token2='O';
 
-    do{
-        index1=playerMove();
-    }while(!validMoveCheck(board,index1));
-    
-    puttingInput(board,index1,token1);
-    showBoard(board);
-    if(gameOver(board,token1,token2)){
-        break;
-    }
-    int index2;
-    
-    do{
-        index2=playerMove();
-    }while(!validMoveCheck(board,index2));
-    
-    puttingInput(board,index2,token2);
-    showBoard(board);
-    if(gameOver(board,token1,token2)){
-        break;
-    }
+        do{
+            index1=playerMove();
+        }while(!validMoveCheck(board,index1));
+        
+        puttingInput(board,index1,token1);
+        showBoard(board);
+        
+        if(gameOver(board,token1,token2)==WIN){
+            gameOverText(0);
+            break;
+        }
+        else if(gameOver(board,token1,token2)==DRAW){
+            gameOverText(6);
+        }
+        int index2;
+        
+        do{
+            index2=playerMove();
+        }while(!validMoveCheck(board,index2));
+        
+        puttingInput(board,index2,token2);
+        showBoard(board);
+
+        if(gameOver(board,token1,token2)==WIN){
+            gameOverText(1);
+            break;
+        }else if(gameOver(board,token1,token2)==DRAW){
+            gameOverText(6);
+        }
     }
     
 }
@@ -64,8 +100,11 @@ void playerVsAI1(char board[3][3]){
         
         puttingInput(board,index1,token1);
         showBoard(board);
-        if(gameOver(board,token1,token2)){
+        if(gameOver(board,token1,token2)==WIN){
+            gameOverText(2);
             break;
+        }else if(gameOver(board,token1,token2)==DRAW){
+            gameOverText(6);
         }
         int index2;
         
@@ -75,17 +114,94 @@ void playerVsAI1(char board[3][3]){
         
         puttingInput(board,index2,token2);
         showBoard(board);
-        if(gameOver(board,token1,token2)){
+        if(gameOver(board,token1,token2)==WIN){
+            gameOverText(3);
             break;
+        }else if(gameOver(board,token1,token2)==DRAW){
+            gameOverText(6);
         }
     }
 }
 void playerVsAI2(char board[3][3]){
-    
+    while(1){
+        int index1;
+        char token1='X';
+        char token2='O';
+
+        do{
+            index1=playerMove();
+        }while(!validMoveCheck(board,index1));
+            
+        puttingInput(board,index1,token1);
+        showBoard(board);
+        if(gameOver(board,token1,token2)==WIN){
+            gameOverText(2);
+            break;
+        }
+        else if(gameOver(board,token1,token2)==DRAW){
+            gameOverText(6);
+        }
+
+        int index2;
+        int caseTrue=0;
+        if(!caseTrue){
+            for(index2=0;index2<9;index2++){
+            //1st case
+                if(validMoveCheck(board,index2)){
+                    board[index2/3][index2%3]=token2;
+                    if(gameOver(board,token1,token2)==1){
+                    
+                        showBoard(board);
+                        gameOverText(7);
+                        caseTrue=1;
+                        break;
+                    }
+                    else{
+                        board[index2/3][index2%3]=' ';
+                    }
+                }  
+            }
+        }
+        if(!caseTrue){
+            for(index2=0;index2<9;index2++){
+                //2nd case
+                if(validMoveCheck(board,index2)){
+                    board[index2/3][index2%3]=token1;
+                    if(gameOver(board,token1,token2)==1){
+                        board[index2/3][index2%3]=token2;
+                        showBoard(board);
+                        gameOverText(7);
+                        caseTrue=1;
+                        break;
+                    }
+                
+                    else{
+                        board[index2/3][index2%3]=' ';
+                    }
+                }
+            }
+        }
+        if(!caseTrue){
+            do{
+                index2=rand()%9;
+            }while(!validMoveCheck(board,index2));
+
+            puttingInput(board,index2,token2);
+            showBoard(board);
+        }   
+        if(gameOver(board,token1,token2)==WIN){
+                gameOverText(4);
+                break;
+        }else if(gameOver(board,token1,token2)==DRAW){
+            gameOverText(6);
+            break;
+        }
+    }
 }
 void playerVsAI3(char board[3][3]){
     
 }
+
 
 int gameOver(char board[3][3],char token1,char token2){
         int flag=!WIN;
@@ -98,9 +214,10 @@ int gameOver(char board[3][3],char token1,char token2){
             }
             if(cnt==2){
                 flag=WIN;
-                if(flag){
-                    (board[i][0]==token1)?printf("Player1 won!"):printf("Player2 won!");
-                }
+                // if(flag){
+                //     number=
+                //     (board[i][0]==token1)?gameOverText(0):printf("Player2 won!\n");
+                // }
                 break;
             } 
         }    
@@ -112,20 +229,20 @@ int gameOver(char board[3][3],char token1,char token2){
             {
 
                 flag=WIN;
-                if(flag){
-                (board[0][i]==token1)?printf("Player1 won!"):printf("Player2 won!");
-                }
+                // if(flag){
+                // (board[0][i]==token1)?printf("Player1 won!\n"):printf("Player2 won!\n");
+                // }
                 break;
             }
         }
     }
     if(board[0][0]!=' '&&board[0][0]==board[1][1]&&board[1][1]==board[2][2]){
         flag=WIN;
-        (board[0][0]==token1)?printf("Player1 won!"):printf("Player2 won!");
+        //(board[0][0]==token1)?printf("Player1 won!\n"):printf("Player2 won!\n");
     }
     if(board[0][2]!=' '&&board[0][2]==board[1][1]&&board[1][1]==board[2][0]){
         flag=WIN;
-        (board[0][2]==token1)?printf("Player1 won!"):printf("Player2 won!");
+        //(board[0][2]==token1)?printf("Player1 won!\n"):printf("Player2 won!\n");
     }
 
     
@@ -139,7 +256,6 @@ int gameOver(char board[3][3],char token1,char token2){
     }
     if(cnt==9&&!flag){
         flag=DRAW;
-        printf("DRAW!");
     }
     return flag;
 }
