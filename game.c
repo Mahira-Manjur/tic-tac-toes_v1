@@ -207,7 +207,8 @@ void playerVsAI3(char board[3][3]){
     bool firstMove=true;    
     while(1){
         if(firstMove){
-            index2=4%9;
+            index2=4
+            ;
             puttingInput(board,index2,token2);
             showBoard(board);
             firstMove=false;
