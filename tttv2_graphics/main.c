@@ -20,6 +20,7 @@
 //     else if(module==4){
 //         printf("Player vs AI3 mode selected\n");
 //     }
+
 //     else{
 //         printf("Invalid choice\n");
 //     }
@@ -43,6 +44,8 @@ int main(){
         ClearBackground(RAYWHITE);
         DrawText("Tic-Tac-Toe is running",50,20,40,PURPLE);
         drawGrid();
+        drawToken(0,'X');
+        drawToken(1,'O');
         EndDrawing();
     }
     CloseWindow();

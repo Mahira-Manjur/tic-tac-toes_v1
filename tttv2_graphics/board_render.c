@@ -2,7 +2,10 @@
 #include "raylib.h"
 
 void drawBoard(char board[3][3]){
-
+    for(int i = 0; i < 3; i++)
+        for(int j = 0; j < 3; j++)
+            if(board[i][j] != ' ')
+                drawToken(i*3 + j, board[i][j]);
 }
 void drawGrid(){
     for(int i=1;i<=2;i++){
@@ -13,6 +16,23 @@ void drawGrid(){
         DrawLineEx((Vector2){BOARD_W,y},(Vector2){BOARD_W+3*CELL,y},6.0f,BLACK);
     }
 }
-void drawToken(char board[3][3],int index,char token){
 
+    void drawToken(int index, char token){
+    if(token == ' ') return;
+    int row = index / 3;
+    int col = index % 3;
+    float cx = BOARD_W + col*CELL + CELL/2.0f;
+    float cy = BOARD_H + row*CELL + CELL/2.0f;
+    float d  = CELL * 0.25f;
+
+    if(token == 'X'){
+        DrawLineEx((Vector2){cx-d, cy-d}, (Vector2){cx+d, cy+d}, 7.0f, RED);
+        DrawLineEx((Vector2){cx-d, cy+d}, (Vector2){cx+d, cy-d}, 7.0f, RED);
+    } else if(token == 'O'){
+        for(int i=-2;i<=4;i++){
+            DrawCircleLines((int)cx,(int)cy,d+i,RED);
+        }
+        //DrawCircleLines((int)cx, (int)cy, d, RED);
+    }
 }
+    
